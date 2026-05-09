@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1 class="page-title">All Tickets</h1>
+
+    <div class="card">
+        <a class="btn" href="/tickets/create">Create Ticket</a>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>User</th>
+            <th>Department</th>
+            <th>Technician</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for row in result %}
+        <tr>
+            <td>{{ row.ticket_id }}</td>
+            <td>{{ row.title }}</td>
+            <td>
+                {% if row.status == "Open" %}
+                    <span class="badge badge-open">Open</span>
+                {% elif row.status == "In Progress" %}
+                    <span class="badge badge-progress">In Progress</span>
+                {% else %}
+                    <span class="badge badge-closed">Closed</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if row.priority == "Low" %}
+                    <span class="badge badge-low">Low</span>
+                {% elif row.priority == "Medium" %}
+                    <span class="badge badge-medium">Medium</span>
+                {% else %}
+                    <span class="badge badge-high">High</span>
+                {% endif %}
+            </td>
+            <td>{{ row.user_name }}</td>
+            <td>{{ row.department_name if row.department_name else "None" }}</td>
+            <td>{{ row.technician_name if row.technician_name else "Unassigned" }}</td>
+            <td>
+                <div class="actions">
+                    <a class="btn btn-secondary" href="/tickets/{{ row.ticket_id }}">Details</a>
+                    <a class="btn" href="/tickets/{{ row.ticket_id }}/edit">Edit</a>
+                    <form method="POST" action="/tickets/{{ row.ticket_id }}/delete" style="display:inline;">
+                        <input class="btn btn-danger" type="submit" value="Delete" onclick="return confirm('Delete this ticket?');">
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1 class="page-title">FixFlow Dashboard</h1>
+
+    <div class="card">
+        <h2>Welcome to FixFlow</h2>
+        <p>A web-based IT support ticket management system.</p>
+
+        <div class="actions">
+            <a class="btn" href="/users">View Users</a>
+            <a class="btn btn-secondary" href="/users/create">Create User</a>
+            <a class="btn" href="/tickets">View Tickets</a>
+            <a class="btn btn-secondary" href="/tickets/create">Create Ticket</a>
+        </div>
+    </div>
+{% endblock %}

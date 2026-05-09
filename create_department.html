@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1 class="page-title">Create Department</h1>
+
+    <div class="card">
+        <form method="POST" action="">
+            <div class="form-group">
+                <label>Department Name</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="actions">
+                <input class="btn" type="submit" value="Create Department">
+                <a class="btn btn-secondary" href="/departments">Cancel</a>
+            </div>
+        </form>
+
+        {% if msg %}
+            <p style="margin-top: 16px;">{{ msg }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1 class="page-title">Ticket Details</h1>
+
+    <div class="card">
+        <h2>{{ ticket.title }}</h2>
+        <p><strong>Ticket ID:</strong> {{ ticket.ticket_id }}</p>
+        <p><strong>Status:</strong> {{ ticket.status }}</p>
+        <p><strong>Priority:</strong> {{ ticket.priority }}</p>
+        <p><strong>Description:</strong> {{ ticket.description }}</p>
+        <p><strong>Created At:</strong> {{ ticket.created_at }}</p>
+        <p><strong>Department:</strong> {{ ticket.department_name if ticket.department_name else "None" }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Requester</h3>
+        <p><strong>Name:</strong> {{ ticket.user_name }}</p>
+        <p><strong>Email:</strong> {{ ticket.user_email }}</p>
+        <p><strong>Department:</strong> {{ ticket.department }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Assigned Technician</h3>
+        <p>{{ ticket.technician_name if ticket.technician_name else "Unassigned" }}</p>
+        <div class="actions">
+            <a class="btn" href="/tickets/{{ ticket.ticket_id }}/edit">Edit Ticket</a>
+            <a class="btn btn-secondary" href="/tickets">Back to Tickets</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Add Comment</h3>
+        <form method="POST" action="/tickets/{{ ticket.ticket_id }}/comment/add">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" name="commented_by" required>
+            </div>
+
+            <div class="form-group">
+                <label>Comment</label>
+                <textarea name="comment_text" rows="4" required></textarea>
+            </div>
+
+            <input class="btn" type="submit" value="Add Comment">
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Comments</h3>
+
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="comment-box">
+                    <div class="meta">
+                        <strong>{{ comment.commented_by }}</strong> - {{ comment.created_at }}
+                    </div>
+                    <p>{{ comment.comment_text }}</p>
+
+                    <form method="POST" action="/comments/{{ comment.comment_id }}/delete/{{ ticket.ticket_id }}">
+                        <input class="btn btn-danger" type="submit" value="Delete Comment" onclick="return confirm('Delete this comment?');">
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No comments yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

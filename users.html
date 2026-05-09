@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1 class="page-title">All Users</h1>
+
+    <div class="card">
+        <a class="btn" href="/users/create">Create User</a>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for row in result %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ row.full_name }}</td>
+            <td>{{ row.email }}</td>
+            <td>{{ row.department }}</td>
+            <td>
+                <form method="POST" action="/users/{{ row.user_id }}/delete" style="display:inline;">
+                    <input class="btn btn-danger" type="submit" value="Delete"
+                           onclick="return confirm('Delete this user? This may also delete their tickets.');">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

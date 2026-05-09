@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1 class="page-title">Departments</h1>
+
+    <div class="card">
+        <a class="btn" href="/departments/create">Create Department</a>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>Department ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for d in result %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ d.department_id }}</td>
+            <td>{{ d.name }}</td>
+            <td>
+                <form method="POST" action="/departments/{{ d.department_id }}/delete" style="display:inline;">
+                    <input class="btn btn-danger" type="submit" value="Delete"
+                           onclick="return confirm('Delete this department?');">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
